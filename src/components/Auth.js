@@ -1,23 +1,17 @@
-import {useContext} from 'react';
-const Auth = () => {
-  const { isAuthenticated, toggleAuth } = useContext(AuthContext);
+import React, { useState, createContext } from "react";
+
+export const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const toggleAuth = () => {
+    setIsAuthenticated((prev) => !prev);
+  };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <h1>Mock Authentication</h1>
-      <label>
-        <input
-          type="checkbox"
-          onChange={toggleAuth}
-          checked={isAuthenticated}
-        />
-        I am not a robot
-      </label>
-      <p>
-        {isAuthenticated
-          ? "🎉 You are authenticated!"
-          : "🚫 You are not authenticated."}
-      </p>
-    </div>
+    <AuthContext.Provider value={{ isAuthenticated, toggleAuth }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
